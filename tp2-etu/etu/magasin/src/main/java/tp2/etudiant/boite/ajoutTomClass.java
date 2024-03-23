@@ -1,4 +1,4 @@
 package tp2.etudiant.boite;
 
-public class ajoutClasseTest {
+public class ajoutTomClass {
 }
