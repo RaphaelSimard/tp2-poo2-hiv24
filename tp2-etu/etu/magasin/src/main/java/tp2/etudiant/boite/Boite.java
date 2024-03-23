@@ -11,6 +11,7 @@ import java.util.Objects;
 //Contient max 10 produits
 public class Boite implements Descriptible, Serializable {
 
+    // TODO petit test de push
     private static int dernierNumeroBoite = 0;
 
     public final static int NOMBRE_ELEMENT_MAX = 10;
