@@ -11,6 +11,10 @@ import java.util.Objects;
 //Contient max 10 produits
 public class Boite implements Descriptible, Serializable {
 
+    public static void main(String[] args) {
+        System.out.println("Tom");
+    }
+
     // TODO petit test de push
     private static int dernierNumeroBoite = 0;
 
@@ -120,3 +124,6 @@ public class Boite implements Descriptible, Serializable {
         return Objects.hash(numeroEmballage);
     }
 }
+
+
+
