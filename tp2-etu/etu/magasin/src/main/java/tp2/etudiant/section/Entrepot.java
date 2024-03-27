@@ -44,18 +44,18 @@ public class Entrepot {
         reorganisation(rangee, section);
     }
 
-    //Retourne le numéro de rangée de la categorie passée en paramètre
-    private int trouverRangee(int categorie) {
+    //Retourne le numéro de rangée de la categorie dont le numéro est passé en paramètre
+    private int trouverRangee(int numeroCategorie) {
         int numeroRangee = -1;
         for (int i = 0; i < NOMBRE_CATEGORIES; i++) {
-            if (entreposage[i][0][0].getNumeroCategorie() == categorie) {
+            if (entreposage[i][0][0].getNumeroCategorie() == numeroCategorie) {
                 numeroRangee = i;
             }
         }
         return numeroRangee;
     }
 
-    //Retourne le numéro de section du produit dont le numéro est passé en paramètre
+    //Retourne le numéro de section du produit dont le numéro  et la rangée sont passés en paramètre
     private int trouverSection(int rangee, int numeroProduit) {
         int numeroSection = -1;
         for (int j = 0; j < NOMBRE_SECTION; j++) {
