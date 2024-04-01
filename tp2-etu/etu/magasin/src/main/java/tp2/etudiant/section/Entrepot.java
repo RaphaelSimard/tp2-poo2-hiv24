@@ -16,18 +16,31 @@ public class Entrepot {
                 [NOMBRE_TABLETTE];
     }
 
-
-    //il manque la gestion en cas de section inexistante pour ce produit, ou si il n'y a plus de section disponible de la part de l'entrepot
+    
     public boolean entreposeBoite(Boite boite) {
+        boolean ajoutBoite = true;
         int numeroCategorie = boite.getNumeroCategorie();
         int numeroProduit = boite.getNumeroProduit();
         int rangee = trouverRangee(numeroCategorie);
         int section = trouverSection(rangee, numeroProduit);
-        reorganisation(rangee, section);
-        assert entreposage[rangee][section][NOMBRE_TABLETTE - 1] == null : "Section pleine, boite refusée";
-        decalage(rangee, section);
-        entreposage[rangee][section][0] = boite;
-        return true;
+        if (section == -1) {
+            section = trouverSectionLibre(rangee);
+            if (section == -1) {
+                System.out.println("Pas de section disponible pour ce type de produit");
+                ajoutBoite = false;
+            }
+        }
+        if (ajoutBoite) {
+            reorganisation(rangee, section);
+            if (entreposage[rangee][section][NOMBRE_TABLETTE - 1] != null) {
+                ajoutBoite = false;
+                System.out.println("Section pleine: boîte refusée");
+            } else {
+                decalage(rangee, section);
+                entreposage[rangee][section][0] = boite;
+            }
+        }
+        return ajoutBoite;
     }
 
     public void retireBoite(Boite boite) {
@@ -90,6 +103,24 @@ public class Entrepot {
                 entreposage[rangee][section][i + 1] = null;
             }
         }
+    }
+
+    public int trouverSectionLibre(int rangee) {
+        int numSectionLibre = -1;
+        for (int i = 0; i < NOMBRE_SECTION; i++) {
+            boolean sectionVide = true;
+            for (int j = 0; j < NOMBRE_TABLETTE; j++) {
+                if (entreposage[rangee][i][j] != null) {
+                    sectionVide = false;
+                    break;
+                }
+            }
+            if (sectionVide) {
+                numSectionLibre = i;
+                break;
+            }
+        }
+        return numSectionLibre;
     }
 
     // passage 3d vers 2d les 2 preière dimension sont fusionnées
