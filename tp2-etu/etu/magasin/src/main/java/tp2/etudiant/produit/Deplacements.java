@@ -3,8 +3,11 @@ package tp2.etudiant.produit;
 import tp2.etudiant.produit.AbstractVehiculeFerroviers;
 
 public class Deplacements extends AbstractVehiculeFerroviers {
-    public Deplacements(String nom) {
-        super(nom);
+
+    private int capaciteNbrePersonnes;
+    public Deplacements(String nom, double poidsVehicule, int capaciteNbrePersonnes) {
+        super(nom, poidsVehicule);
+        this.capaciteNbrePersonnes = capaciteNbrePersonnes;
     }
 
     @Override
@@ -14,6 +17,6 @@ public class Deplacements extends AbstractVehiculeFerroviers {
 
     @Override
     public String decrit() {
-        return null;
+        return super.decrit() + " et la capacité du nombre de personne : " + capaciteNbrePersonnes;
     }
 }

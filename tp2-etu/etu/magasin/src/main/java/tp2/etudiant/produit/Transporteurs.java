@@ -13,8 +13,9 @@ public class Transporteurs extends AbstractVehiculeRoutiers {
     }
 
     private int poidsRemorque;
-    public Transporteurs(String nom, int nbreRoues, int poidsRemorque) {
-        super(nom, nbreRoues);
+    public Transporteurs(String nom, double poidsVehicule, int nbreRoues, int poidsRemorque) {
+        super(nom, poidsVehicule, nbreRoues);
+        assert poidsRemorque > 0 : "Valeur sous 0 impossible";
         this.poidsRemorque = poidsRemorque;
     }
 
@@ -25,6 +26,6 @@ public class Transporteurs extends AbstractVehiculeRoutiers {
 
     @Override
     public String decrit() {
-        return null;
+        return super.decrit() + "et le poids de la remorque : " + poidsRemorque;
     }
 }

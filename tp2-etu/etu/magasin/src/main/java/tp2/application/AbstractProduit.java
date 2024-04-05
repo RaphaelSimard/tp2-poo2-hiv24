@@ -26,12 +26,16 @@ public abstract class AbstractProduit implements Descriptible, Cloneable, Serial
 
     @Override
     public String toString() {
+        return decrit();
+        /*
         return "AbstractProduit{" +
                 "nom='" + nom + '\'' +
                 ", numSerie=" + numSerie +
                 ", numProduit=" + numProduit +
                 ", date=" + date +
                 '}';
+
+         */
     }
 
     @Override

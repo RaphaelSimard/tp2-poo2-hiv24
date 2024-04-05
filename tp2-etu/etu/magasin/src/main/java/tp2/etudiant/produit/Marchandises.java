@@ -3,8 +3,8 @@ package tp2.etudiant.produit;
 import tp2.etudiant.produit.AbstractVehiculeFerroviers;
 
 public class Marchandises extends AbstractVehiculeFerroviers {
-    public Marchandises(String nom) {
-        super(nom);
+    public Marchandises(String nom, double poidsVehicule) {
+        super(nom, poidsVehicule);
     }
 
     @Override

@@ -13,8 +13,9 @@ public class Sports extends AbstractVehiculeRoutiers {
     }
 
     private int nbreChevaux;
-    public Sports(String nom, int nbreRoues, int nbreChevaux) {
-        super(nom, nbreRoues);
+    public Sports(String nom, double poidsVehicule, int nbreRoues, int nbreChevaux) {
+        super(nom, poidsVehicule, nbreRoues);
+        assert nbreChevaux > 0 : "Moins de 0 chevaux???";
         this.nbreChevaux = nbreChevaux;
     }
 
@@ -25,6 +26,6 @@ public class Sports extends AbstractVehiculeRoutiers {
 
     @Override
     public String decrit() {
-        return null;
+        return super.decrit() + " et a " + nbreChevaux + " de chevaux";
     }
 }

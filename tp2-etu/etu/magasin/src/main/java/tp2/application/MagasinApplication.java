@@ -22,6 +22,6 @@ public class MagasinApplication extends Application {
 
     public static void main(String[] args) {
         Application.launch();
-        System.out.println("Bonjour");
+        System.out.println("Fin Du Programme");
     }
 }
