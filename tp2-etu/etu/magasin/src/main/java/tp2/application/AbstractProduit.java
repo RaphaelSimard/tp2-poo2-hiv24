@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public abstract class AbstractProduit implements Descriptible, Cloneable, Serializable {
+
     private String nom;
     private int numSerie; // unique pour chaque produit
     private int numProduit; // associer au type de produit
@@ -61,3 +62,5 @@ public abstract class AbstractProduit implements Descriptible, Cloneable, Serial
     public abstract int getNumeroCategorie();
 
 }
+
+// Bonjour, 1 2 testing
