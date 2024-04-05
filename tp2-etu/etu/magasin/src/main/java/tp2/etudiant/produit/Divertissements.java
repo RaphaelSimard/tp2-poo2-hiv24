@@ -1,12 +1,13 @@
-package tp2.etudiant.produit.CategorieRoutiers;
+package tp2.etudiant.produit;
 
 import tp2.etudiant.produit.AbstractVehiculeRoutiers;
 
 public class Divertissements extends AbstractVehiculeRoutiers {
 
 
-    public Divertissements(String nom) {
-        super(nom);
+
+    public Divertissements(String nom, int nbreRoues) {
+        super(nom, nbreRoues);
     }
 
     @Override

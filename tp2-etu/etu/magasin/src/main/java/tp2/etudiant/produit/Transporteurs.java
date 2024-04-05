@@ -1,4 +1,4 @@
-package tp2.etudiant.produit.CategorieRoutiers;
+package tp2.etudiant.produit;
 
 import tp2.etudiant.produit.AbstractVehiculeRoutiers;
 
@@ -13,8 +13,8 @@ public class Transporteurs extends AbstractVehiculeRoutiers {
     }
 
     private int poidsRemorque;
-    public Transporteurs(String nom, int poidsRemorque) {
-        super(nom);
+    public Transporteurs(String nom, int nbreRoues, int poidsRemorque) {
+        super(nom, nbreRoues);
         this.poidsRemorque = poidsRemorque;
     }
 

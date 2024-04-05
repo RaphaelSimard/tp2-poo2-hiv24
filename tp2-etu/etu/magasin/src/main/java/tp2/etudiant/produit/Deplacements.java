@@ -1,9 +1,9 @@
-package tp2.etudiant.produit.TypeFerroviers;
+package tp2.etudiant.produit;
 
 import tp2.etudiant.produit.AbstractVehiculeFerroviers;
 
-public class Marchandises extends AbstractVehiculeFerroviers {
-    public Marchandises(String nom) {
+public class Deplacements extends AbstractVehiculeFerroviers {
+    public Deplacements(String nom) {
         super(nom);
     }
 
