@@ -3,6 +3,10 @@ package tp2.etudiant.section;
 
 import tp2.etudiant.boite.Boite;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 public class Entrepot {
     public static final int NOMBRE_SECTION = 5;
     public static final int NOMBRE_TABLETTE = 5;
@@ -130,8 +134,16 @@ public class Entrepot {
     }
 
     public Boite[] getBoites1D() {
-
-        return null;
+        List<Boite> listTab = new ArrayList<Boite>();
+        for (int i = 0; i < entreposage.length; i++) {
+            for (int j = 0; j < entreposage[0].length; j++) {
+                for (int k = 0; k < entreposage[0][0].length; k++) {
+                    listTab.add(entreposage[i][j][k]);
+                }
+            }
+        }
+        Boite[] tab = (Boite[]) listTab.toArray();
+        return tab;
     }
 
     public Boite[] getBoites3D() {
