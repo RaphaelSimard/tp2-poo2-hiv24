@@ -72,7 +72,7 @@ public class Entrepot {
     private int trouverRangee(int numeroCategorie) {
         int numeroRangee = -1;
         for (int i = 0; i < NOMBRE_CATEGORIES; i++) {
-            if (entreposage[i][0][0].getNumeroCategorie() == numeroCategorie) {
+            if (entreposage[i][0][0] != null && entreposage[i][0][0].getNumeroCategorie() == numeroCategorie) {
                 numeroRangee = i;
             }
         }
@@ -83,7 +83,7 @@ public class Entrepot {
     private int trouverSection(int rangee, int numeroProduit) {
         int numeroSection = -1;
         for (int j = 0; j < NOMBRE_SECTION; j++) {
-            if (entreposage[rangee][j][0].getNumeroProduit() == numeroProduit) {
+            if (entreposage[rangee][j][0] != null && entreposage[rangee][j][0].getNumeroProduit() == numeroProduit) {
                 numeroSection = j;
             }
         }
@@ -162,6 +162,16 @@ public class Entrepot {
         boolean estVide = true;
         for (Boite[] section : sections) {
             if (!sectionVide(section)) {
+                estVide = false;
+            }
+        }
+        return estVide;
+    }
+
+    public boolean entrepotVide() {
+        boolean estVide = true;
+        for (Boite[][] rangee: entreposage) {
+            if (!rangeeVide(rangee)) {
                 estVide = false;
             }
         }
