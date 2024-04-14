@@ -94,8 +94,8 @@ public class Entrepot {
     //Monte toutes les boites de la section passée en paramètre d'une tablette
     public void decalage(int rangee, int section) {
         int lastIndex = -1;
-        for (int i = 0; i < NOMBRE_TABLETTE; i++) {
-            if (entreposage[rangee][section][i] != null || entreposage[rangee][section][i + 1] == null) {
+        for (int i = 0; i < NOMBRE_TABLETTE - 1; i++) {
+            if (entreposage[rangee][section][i] != null && entreposage[rangee][section][i + 1] == null) {
                 lastIndex = i;
             }
         }
