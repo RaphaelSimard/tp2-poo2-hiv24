@@ -29,7 +29,7 @@ public class Entrepot {
         if (rangee == -1) {
             rangee = trouverRangeeLibre();
             if (rangee == -1) {
-                System.out.println("Pas de rangee disponible pour cette catégorie de produit");
+                System.out.println("Plus de rangee disponible");
                 ajoutBoite = false;
             }
         }
@@ -116,48 +116,78 @@ public class Entrepot {
         }
     }
 
+
+
     public int trouverSectionLibre(int rangee) {
-        int numSectionLibre = -1;
-        for (int i = 0; i < NOMBRE_SECTION; i++) {
-            boolean sectionVide = true;
-            for (int j = 0; j < NOMBRE_TABLETTE; j++) {
-                if (entreposage[rangee][i][j] != null) {
-                    sectionVide = false;
-                    break;
+        int numSection = -1;
+        boolean condition = true;
+        while (condition) {
+            for (int i = 0; i < NOMBRE_SECTION; i++) {
+                if (sectionVide(entreposage[rangee][i])) {
+                    numSection = i;
+                    condition = false;
                 }
             }
-            if (sectionVide) {
-                numSectionLibre = i;
-                break;
-            }
         }
-        return numSectionLibre;
+        return numSection;
     }
 
     public int trouverRangeeLibre() {
         int numRangeeLibre = -1;
-        for (int i = 0; i < NOMBRE_CATEGORIES; i++) {
-            boolean rangeeVide = true;
-            for (int j = 0; j < NOMBRE_SECTION; j++) {
-                for (Boite boite: entreposage[i][j]) {
-                    if (boite != null) {
-                        rangeeVide = false;
-                        break;
-                    }
+        boolean condition = true;
+        while (condition) {
+            for (int i = 0; i < NOMBRE_CATEGORIES; i++) {
+                if (rangeeVide(entreposage[i])) {
+                    numRangeeLibre = i;
+                    condition = false;
                 }
-            }
-            if (rangeeVide) {
-                numRangeeLibre = i;
-                break;
             }
         }
         return numRangeeLibre;
     }
 
-    // passage 3d vers 2d les 2 preière dimension sont fusionnées
-    public Boite[][] getBoites2D() {
+    //Vérifie si une section est vide
+    private boolean sectionVide(Boite[] section) {
+        boolean estVide = true;
+        for (Boite boite : section) {
+            if (boite != null) {
+                estVide = false;
+            }
+        }
+        return estVide;
+    }
 
-        return null;
+    // Vérifie si une rangée est vide
+    public boolean rangeeVide(Boite[][] sections) {
+        boolean estVide = true;
+        for (Boite[] section : sections) {
+            if (!sectionVide(section)) {
+                estVide = false;
+            }
+        }
+        return estVide;
+    }
+
+    // passage 3d vers 2d les 2 premières dimensions sont fusionnées
+    public Boite[][] getBoites2D() {
+        Boite[][] tab2D = new Boite[NOMBRE_SECTION*NOMBRE_CATEGORIES][NOMBRE_TABLETTE];
+        int index = 0;
+        for (int i = 0; i < NOMBRE_CATEGORIES; i++) {
+            for (int j = 0; j < NOMBRE_SECTION; j++) {
+                Boite[] section = entreposage[i][j];
+                if (!sectionVide(section)) {
+                    for (int k = 0; k < NOMBRE_TABLETTE; k++) {
+                        tab2D[index][k] = section[k];
+                    }
+                }
+                else {
+                    Boite[] sectionVide = {null, null, null, null, null};
+                    tab2D[index] = sectionVide;
+                }
+            }
+            index++;
+        }
+        return tab2D;
     }
 
     public Boite[] getBoites1D() {
@@ -169,13 +199,11 @@ public class Entrepot {
                 }
             }
         }
-        Boite[] tab = (Boite[]) listTab.toArray();
-        return tab;
+        return listTab.toArray(new Boite[0]);
     }
 
-    public Boite[] getBoites3D() {
-
-        return null;
+    public Boite[][][] getBoites3D() {
+        return entreposage;
     }
 
 
