@@ -20,12 +20,19 @@ public class Entrepot {
                 [NOMBRE_TABLETTE];
     }
 
-    
+
     public boolean entreposeBoite(Boite boite) {
         boolean ajoutBoite = true;
         int numeroCategorie = boite.getNumeroCategorie();
         int numeroProduit = boite.getNumeroProduit();
         int rangee = trouverRangee(numeroCategorie);
+        if (rangee == -1) {
+            rangee = trouverRangeeLibre();
+            if (rangee == -1) {
+                System.out.println("Pas de rangee disponible pour cette catégorie de produit");
+                ajoutBoite = false;
+            }
+        }
         int section = trouverSection(rangee, numeroProduit);
         if (section == -1) {
             section = trouverSectionLibre(rangee);
@@ -125,6 +132,26 @@ public class Entrepot {
             }
         }
         return numSectionLibre;
+    }
+
+    public int trouverRangeeLibre() {
+        int numRangeeLibre = -1;
+        for (int i = 0; i < NOMBRE_CATEGORIES; i++) {
+            boolean rangeeVide = true;
+            for (int j = 0; j < NOMBRE_SECTION; j++) {
+                for (Boite boite: entreposage[i][j]) {
+                    if (boite != null) {
+                        rangeeVide = false;
+                        break;
+                    }
+                }
+            }
+            if (rangeeVide) {
+                numRangeeLibre = i;
+                break;
+            }
+        }
+        return numRangeeLibre;
     }
 
     // passage 3d vers 2d les 2 preière dimension sont fusionnées
