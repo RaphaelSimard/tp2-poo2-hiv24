@@ -17,10 +17,18 @@ public class Magasin implements Modele {
 
 
     private Collection<Achat> achats = new ArrayList<>();
+    private Collection <AireI> sections;
+    private Entrepot entrepot;
+
+//    private EntrepotClient entrepotClient;
+
 
 
     public Magasin() {
         // Instanciez les attributs nécessaires
+        sections = new ArrayList<>();
+        entrepot = new Entrepot();
+        //sections.add(EntrepotClient);
 
     }
 
@@ -37,8 +45,14 @@ public class Magasin implements Modele {
 
     @Override
     public int recevoirCommande(Collection<Boite> commande) {
+        int nbreBoiteAjout = 0;
 
-        return -1;
+        for (Boite boite : commande){
+            if (entrepot.entreposeBoite(boite)){
+                nbreBoiteAjout++;
+            }
+        }
+        return nbreBoiteAjout;
     }
 
     public void placerProduits(Collection<Boite> boites, AireI section) {
