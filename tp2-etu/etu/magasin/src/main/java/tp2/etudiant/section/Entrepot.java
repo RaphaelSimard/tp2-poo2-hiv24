@@ -120,36 +120,25 @@ public class Entrepot {
     public int trouverSectionLibre(int rangee) { //break pour l'instant, à modifier
         int numSection = -1;
         boolean condition = true;
-        for (int i = 0; i < NOMBRE_SECTION; i++) {
+        for (int i = 0; i < NOMBRE_SECTION && condition; i++) {
             if (sectionVide(entreposage[rangee][i])) {
                 numSection = i;
-                break;
+                condition = false;
             }
         }
         return numSection;
     }
 
-    public int trouverRangeeLibre() { //break pour l'instant, à modifier
+    public int trouverRangeeLibre() {
         int numRangeeLibre = -1;
         boolean condition = true;
-        for (int i = 0; i < NOMBRE_CATEGORIES; i++) {
+        for (int i = 0; i < NOMBRE_CATEGORIES && condition; i++) {
             if (rangeeVide(entreposage[i])) {
                 numRangeeLibre = i;
-                break;
+                condition = false;
             }
         }
         return numRangeeLibre;
-    }
-
-    //Vérifie si une section est vide
-    private boolean sectionVide(Boite[] section) {
-        boolean estVide = true;
-        for (Boite boite : section) {
-            if (boite != null) {
-                estVide = false;
-            }
-        }
-        return estVide;
     }
 
     // Vérifie si une rangée est vide
@@ -157,6 +146,17 @@ public class Entrepot {
         boolean estVide = true;
         for (Boite[] section : sections) {
             if (!sectionVide(section)) {
+                estVide = false;
+            }
+        }
+        return estVide;
+    }
+
+    //Vérifie si une section est vide
+    private boolean sectionVide(Boite[] section) {
+        boolean estVide = true;
+        for (Boite boite : section) {
+            if (boite != null) {
                 estVide = false;
             }
         }
