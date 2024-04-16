@@ -84,7 +84,7 @@ public class Magasin implements Modele {
     }
 
     public Entrepot getEntrepot() {
-        return null;
+        return entrepot;
     }
 
 }

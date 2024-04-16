@@ -117,30 +117,25 @@ public class Entrepot {
     }
 
 
-
-    public int trouverSectionLibre(int rangee) {
+    public int trouverSectionLibre(int rangee) { //break pour l'instant, à modifier
         int numSection = -1;
         boolean condition = true;
-        while (condition) {
-            for (int i = 0; i < NOMBRE_SECTION; i++) {
-                if (sectionVide(entreposage[rangee][i])) {
-                    numSection = i;
-                    condition = false;
-                }
+        for (int i = 0; i < NOMBRE_SECTION; i++) {
+            if (sectionVide(entreposage[rangee][i])) {
+                numSection = i;
+                break;
             }
         }
         return numSection;
     }
 
-    public int trouverRangeeLibre() {
+    public int trouverRangeeLibre() { //break pour l'instant, à modifier
         int numRangeeLibre = -1;
         boolean condition = true;
-        while (condition) {
-            for (int i = 0; i < NOMBRE_CATEGORIES; i++) {
-                if (rangeeVide(entreposage[i])) {
-                    numRangeeLibre = i;
-                    condition = false;
-                }
+        for (int i = 0; i < NOMBRE_CATEGORIES; i++) {
+            if (rangeeVide(entreposage[i])) {
+                numRangeeLibre = i;
+                break;
             }
         }
         return numRangeeLibre;
@@ -170,7 +165,7 @@ public class Entrepot {
 
     public boolean entrepotVide() {
         boolean estVide = true;
-        for (Boite[][] rangee: entreposage) {
+        for (Boite[][] rangee : entreposage) {
             if (!rangeeVide(rangee)) {
                 estVide = false;
             }
@@ -180,7 +175,7 @@ public class Entrepot {
 
     // passage 3d vers 2d les 2 premières dimensions sont fusionnées
     public Boite[][] getBoites2D() {
-        Boite[][] tab2D = new Boite[NOMBRE_SECTION*NOMBRE_CATEGORIES][NOMBRE_TABLETTE];
+        Boite[][] tab2D = new Boite[NOMBRE_SECTION * NOMBRE_CATEGORIES][NOMBRE_TABLETTE];
         int index = 0;
         for (int i = 0; i < NOMBRE_CATEGORIES; i++) {
             for (int j = 0; j < NOMBRE_SECTION; j++) {
@@ -189,8 +184,7 @@ public class Entrepot {
                     for (int k = 0; k < NOMBRE_TABLETTE; k++) {
                         tab2D[index][k] = section[k];
                     }
-                }
-                else {
+                } else {
                     Boite[] sectionVide = {null, null, null, null, null};
                     tab2D[index] = sectionVide;
                 }
