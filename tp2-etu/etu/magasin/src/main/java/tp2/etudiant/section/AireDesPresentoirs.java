@@ -4,16 +4,9 @@ import tp2.application.AbstractProduit;
 import tp2.etudiant.boite.Boite;
 
 import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
 
-public class Vrac implements AireI{
-
-    public int sectionId;
-    Map<String, Set<AbstractProduit>> contenu;
-
-    public Vrac(Map<String, Set<AbstractProduit>> contenu) {
-        this.contenu = contenu;
+public class AireDesPresentoirs implements AireI{
+    public AireDesPresentoirs() {
     }
 
     @Override

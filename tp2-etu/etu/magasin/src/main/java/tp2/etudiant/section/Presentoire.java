@@ -7,14 +7,20 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-public class Vrac implements AireI{
+public class Presentoire implements AireI{
 
     public int sectionId;
-    Map<String, Set<AbstractProduit>> contenu;
+    private Map<String, Set<AbstractProduit>> contenu;
 
-    public Vrac(Map<String, Set<AbstractProduit>> contenu) {
+    public Presentoire(int sectionId) {
+        this.sectionId = sectionId;
+    }
+
+    public Presentoire(int sectionId, Map<String, Set<AbstractProduit>> contenu) {
+        this.sectionId = sectionId;
         this.contenu = contenu;
     }
+
 
     @Override
     public String decrit() {

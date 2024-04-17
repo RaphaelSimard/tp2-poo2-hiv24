@@ -35,7 +35,7 @@ public class Magasin implements Modele {
 
     @Override
     public Collection<AireI> getAllSections() {
-        return null;
+        return sections;
     }
 
     @Override
