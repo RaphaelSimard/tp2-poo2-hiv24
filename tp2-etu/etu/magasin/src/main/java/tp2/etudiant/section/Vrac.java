@@ -9,10 +9,13 @@ import java.util.Set;
 
 public class Vrac implements AireI{
 
-    public int sectionId;
+
+    public final static int idDefault = 0;
+    int sectionId;
     Map<String, Set<AbstractProduit>> contenu;
 
     public Vrac(Map<String, Set<AbstractProduit>> contenu) {
+        this.sectionId = idDefault;
         this.contenu = contenu;
     }
 

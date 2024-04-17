@@ -163,16 +163,6 @@ public class Entrepot {
         return estVide;
     }
 
-    public boolean entrepotVide() {
-        boolean estVide = true;
-        for (Boite[][] rangee : entreposage) {
-            if (!rangeeVide(rangee)) {
-                estVide = false;
-            }
-        }
-        return estVide;
-    }
-
     // passage 3d vers 2d les 2 premières dimensions sont fusionnées
     public Boite[][] getBoites2D() {
         Boite[][] tab2D = new Boite[NOMBRE_SECTION * NOMBRE_CATEGORIES][NOMBRE_TABLETTE];
@@ -196,9 +186,9 @@ public class Entrepot {
 
     public Boite[] getBoites1D() {
         List<Boite> listTab = new ArrayList<Boite>();
-        for (int i = 0; i < entreposage.length; i++) {
-            for (int j = 0; j < entreposage[0].length; j++) {
-                for (int k = 0; k < entreposage[0][0].length; k++) {
+        for (int i = 0; i < NOMBRE_CATEGORIES; i++) {
+            for (int j = 0; j < NOMBRE_SECTION; j++) {
+                for (int k = 0; k < NOMBRE_TABLETTE; k++) {
                     listTab.add(entreposage[i][j][k]);
                 }
             }
@@ -207,7 +197,11 @@ public class Entrepot {
     }
 
     public Boite[][][] getBoites3D() {
-        return entreposage;
+        Boite[][][] matrice = new Boite[NOMBRE_CATEGORIES][NOMBRE_SECTION][NOMBRE_TABLETTE];
+        for (int i = 0; i < NOMBRE_CATEGORIES; i++) {
+            matrice[i] = entreposage[i];
+        }
+        return matrice;
     }
 
 
