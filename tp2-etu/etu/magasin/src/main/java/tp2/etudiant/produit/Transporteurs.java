@@ -21,7 +21,7 @@ public class Transporteurs extends AbstractVehiculeRoutiers {
 
     @Override
     public int getNumeroCategorie() {
-        return 0;
+        return 2;
     }
 
     @Override

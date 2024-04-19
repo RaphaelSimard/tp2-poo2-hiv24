@@ -12,7 +12,7 @@ public class Deplacements extends AbstractVehiculeFerroviers {
 
     @Override
     public int getNumeroCategorie() {
-        return 0;
+        return 4;
     }
 
     @Override

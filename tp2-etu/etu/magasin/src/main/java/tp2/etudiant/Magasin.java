@@ -11,6 +11,7 @@ import tp2.etudiant.section.Entrepot;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 public class Magasin implements Modele {
@@ -45,7 +46,19 @@ public class Magasin implements Modele {
 
     @Override
     public int recevoirCommande(Collection<Boite> commande) {
-        int nbreBoiteAjout = 0;
+
+        boolean boitesRestantes;
+        int boiteDeTrop = 0;
+        for (Boite boite : commande) {
+            boitesRestantes = entrepot.entreposeBoite(boite);
+            if (boitesRestantes != true) {
+                boiteDeTrop ++;
+            }
+        }
+        return boiteDeTrop;
+    }
+        /**
+        int nbreBoiteAjout = -1;
 
         for (Boite boite : commande){
             if (entrepot.entreposeBoite(boite)){
@@ -53,7 +66,9 @@ public class Magasin implements Modele {
             }
         }
         return nbreBoiteAjout;
-    }
+         */
+
+
 
     public void placerProduits(Collection<Boite> boites, AireI section) {
 //        List<Boite> boitesNonPlacees = new ArrayList<>();
@@ -68,6 +83,10 @@ public class Magasin implements Modele {
 //            } else {
 //                vrac.ajouterBoites(boitesNonPlacees);
 //            }
+//        }
+//        Iterator<Boite> iteratorDeBoite = boites.iterator();
+//        while (iteratorDeBoite.hasNext()){
+//            section.placerProduits(iteratorDeBoite.next());
 //        }
     }
 

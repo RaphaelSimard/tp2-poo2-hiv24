@@ -21,7 +21,7 @@ public class Sports extends AbstractVehiculeRoutiers {
 
     @Override
     public int getNumeroCategorie() {
-        return 0;
+        return 1;
     }
 
     @Override

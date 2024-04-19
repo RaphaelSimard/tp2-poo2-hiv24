@@ -3,14 +3,14 @@ package tp2.etudiant.section;
 
 import tp2.etudiant.boite.Boite;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class Entrepot {
-    public static final int NOMBRE_SECTION = 5;
-    public static final int NOMBRE_TABLETTE = 5;
-    public static final int NOMBRE_CATEGORIES = 3;
+
+    private Map<Integer, Boite [][]> categorieBoite = new HashMap<>();
+    public static final int NOMBRE_SECTION = 8;
+    public static final int NOMBRE_TABLETTE = 4;
+    public static final int NOMBRE_CATEGORIES = 5;
     private String sectionId = "entrepot";
     private Boite[][][] entreposage;//[rangee][section][tablette]->[categorie de produit][type de produit][boite de produit]
 
@@ -18,10 +18,36 @@ public class Entrepot {
         entreposage = new Boite[NOMBRE_CATEGORIES]
                 [NOMBRE_SECTION]
                 [NOMBRE_TABLETTE];
+        // Ici c'est pour identifier le premier niveau à un ID --> la categorie de quotidien est 0, donc va etre dans le premier tableau de tableau de tableau et etc
+        for (int i = 0; i < NOMBRE_CATEGORIES; i++) {
+            categorieBoite.put(i, entreposage[i]);
+        }
+
     }
+
+    // pas besoin au final vue qu'a la fin on le met directe au début apres le décalage
+//    public boolean tabletteLibre(int range, int section){
+//        boolean libre;
+//        for (int i = 0; i < entreposage[range][section].length; i++) {
+//            if (entreposage[range][section] != null);
+//            libre = false;
+//        }
+//        return false;
+//    }
+
+//    public boolean sectionConteneur(Boite[] section, int numeroProduit) {
+//        boolean test = false;
+//        for (Boite boite : section){
+//            if (boite!=null && boite.getNumeroProduit() == numeroProduit){
+//                test = true;
+//            }
+//        }
+//        return test;
+//    }
 
 
     public boolean entreposeBoite(Boite boite) {
+
         boolean ajoutBoite = true;
         int numeroCategorie = boite.getNumeroCategorie();
         int numeroProduit = boite.getNumeroProduit();
@@ -36,11 +62,18 @@ public class Entrepot {
         int section = trouverSection(rangee, numeroProduit);
         if (section == -1) {
             section = trouverSectionLibre(rangee);
+            // ici, après qu'on est bel et bien identifier la section que l'on veut, l'on doit maintenant ajouter les produits dans les tablettes
             if (section == -1) {
                 System.out.println("Pas de section disponible pour ce type de produit");
                 ajoutBoite = false;
             }
         }
+
+//        int tablette = trouverTablette(rangee, section, numeroProduit);
+//        if (tablette == -1){
+//            ajoutBoite = false;
+//        }
+
         if (ajoutBoite) {
             reorganisation(rangee, section);
             if (entreposage[rangee][section][NOMBRE_TABLETTE - 1] != null) {
@@ -53,6 +86,19 @@ public class Entrepot {
         }
         return ajoutBoite;
     }
+
+    // pense pas qu'elle va être utilise au final
+//    public int trouverTablette (int rangee, int section, int numProduit){
+//        int tablette = -1;
+//
+//        for (int i = 0; i < NOMBRE_TABLETTE && tablette ==-1; i++) {
+//            if (entreposage[rangee][section][i] == null){
+//                tablette = i;
+//            }
+//        }
+//
+//        return tablette;
+//    }
 
     public void retireBoite(Boite boite) {
         int numeroCategorie = boite.getNumeroCategorie();
@@ -70,24 +116,53 @@ public class Entrepot {
 
     //Retourne le numéro de rangée de la categorie dont le numéro est passé en paramètre
     private int trouverRangee(int numeroCategorie) {
+        // Ici on analyse si la map créer plus haut contient le meme id (est associé au premier niveau de entreposage, une sorte de num ID) que l'item commandé
+        return categorieBoite.containsKey(numeroCategorie) ? numeroCategorie :-1;
+
+        /**
         int numeroRangee = -1;
-        for (int i = 0; i < NOMBRE_CATEGORIES; i++) {
-            if (entreposage[i][0][0] != null && entreposage[i][0][0].getNumeroCategorie() == numeroCategorie) {
+        for (int i = 0; i < NOMBRE_CATEGORIES + 1; i++) {
+            if (entreposage[i][0][0].getNumeroCategorie() == numeroCategorie) {
                 numeroRangee = i;
             }
         }
         return numeroRangee;
+         */
     }
 
     //Retourne le numéro de section du produit dont le numéro  et la rangée sont passés en paramètre
     private int trouverSection(int rangee, int numeroProduit) {
-        int numeroSection = -1;
-        for (int j = 0; j < NOMBRE_SECTION; j++) {
-            if (entreposage[rangee][j][0] != null && entreposage[rangee][j][0].getNumeroProduit() == numeroProduit) {
-                numeroSection = j;
+//        int numSection = -1;
+//        for (int i = 0; i < NOMBRE_SECTION; i++) {
+//            if (sectionConteneur(entreposage[rangee][i], numeroProduit)){
+//                numSection = i;
+//            }
+//        }
+
+
+        int numSection = -1;
+        for (int i = 0; i < NOMBRE_SECTION && numSection == -1 ; i++) {
+            // prob d'utilisation this.truc is null, marche pas
+//            if (entreposage[rangee][i][0].getNumeroProduit() == numeroProduit){
+//                numSection = i-1;
+//            }
+
+            if(sectionVide(entreposage[rangee][i])){
+                numSection = i;
             }
+
         }
-        return numeroSection;
+        return numSection;
+
+
+//        int numeroSection = -1;
+//        for (int j = 0; j < NOMBRE_SECTION && numeroSection ==-1; j++) {
+//            if (entreposage[rangee][j][0] != null && entreposage[rangee][j][0].getNumeroProduit() == numeroProduit) {
+//                numeroSection = j;
+//            }
+//        }
+//        return numeroSection;
+
     }
 
 
@@ -108,6 +183,7 @@ public class Entrepot {
 
     //Comble tout les vides qui peuvent se trouver entre deux boites de la section passée en paramètre
     public void reorganisation(int rangee, int section) {
+        //ici je me demande si on est pas mieux de faire l'utilisation d'une liste pour chaque tablette, comme ca quand on ajoute ça va directe en premier et tasse directe pour les autres
         for (int i = 0; i < NOMBRE_TABLETTE - 1; i++) {
             if (entreposage[rangee][section][i] == null || entreposage[rangee][section][i + 1] != null) {
                 entreposage[rangee][section][i] = entreposage[rangee][section][i + 1];
@@ -118,6 +194,7 @@ public class Entrepot {
 
 
     public int trouverSectionLibre(int rangee) { //break pour l'instant, à modifier
+        // ici on peut remplacer la partie condition par numSection, apres NOMBRE_SECTION, on peut mettre && numSection == -1
         int numSection = -1;
         boolean condition = true;
         for (int i = 0; i < NOMBRE_SECTION && condition; i++) {
@@ -162,6 +239,8 @@ public class Entrepot {
         }
         return estVide;
     }
+
+
 
     // passage 3d vers 2d les 2 premières dimensions sont fusionnées
     public Boite[][] getBoites2D() {

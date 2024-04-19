@@ -338,7 +338,7 @@ public class MagasinController {
         entrepotListView.getItems().clear();
         Entrepot entrepot = modele.getEntrepot();
         if (entrepot != null) {
-            Boite[][] boites = entrepot.getBoites2D();
+            Boite[] boites = entrepot.getBoites1D();
             for (int i = 0; i < boites.length; i++) {
                 entrepotListView.getItems().addAll(Arrays.asList(boites[i]));
             }
