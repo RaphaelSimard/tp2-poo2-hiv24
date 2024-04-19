@@ -3,10 +3,13 @@ package tp2.etudiant.section;
 import tp2.application.AbstractProduit;
 import tp2.etudiant.boite.Boite;
 
-import java.util.Collection;
+import java.util.*;
 
 public class AireDesPresentoirs implements AireI{
+
+    private Map<String, Set<AbstractProduit>> contenu;
     public AireDesPresentoirs() {
+        this.contenu = new HashMap<>();
     }
 
     @Override
@@ -26,7 +29,26 @@ public class AireDesPresentoirs implements AireI{
 
     @Override
     public Collection<AbstractProduit> placerProduits(Boite produits) {
-        return null;
+        Collection<AbstractProduit> produitsNonPlaces = new ArrayList<>();
+//        List<AbstractProduit> Produits = Boite.getContenu(); // Accéder à la liste de produits dans la boîte
+//
+//        for (AbstractProduit produit : produit) {
+//            boolean place = false;
+//            for (Map.Entry<String, ????> entry : contenu.entrySet()) { // Remplacer ??? par le type approprié
+//                String nomProduit = entry.getKey();
+//                Collection<AbstractProduit> presentoir = entry.getValue();
+//                if (/* Vérifier si le présentoir peut contenir le produit */) {
+//                    presentoir.add(produit); // Ajouter le produit au présentoir
+//                    place = true;
+//                    break;
+//                }
+//            }
+//            if (!place) {
+//                produitsNonPlaces.add(produit); // Ajouter le produit à la liste des produits non placés
+//            }
+//        }
+
+        return produitsNonPlaces;
     }
 
     @Override

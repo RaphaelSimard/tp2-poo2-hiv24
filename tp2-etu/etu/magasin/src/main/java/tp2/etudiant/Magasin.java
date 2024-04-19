@@ -56,7 +56,19 @@ public class Magasin implements Modele {
     }
 
     public void placerProduits(Collection<Boite> boites, AireI section) {
-
+//        List<Boite> boitesNonPlacees = new ArrayList<>();
+//        for (Boite boite : boites) {
+//            if (section.estSectionClient()) {
+//                boitesNonPlacees.add(boite);
+//            }
+//        }
+//        if (!boitesNonPlacees.isEmpty()) {
+//            if (section.estSectionClient()) {
+//                charite.ajouterBoites(boitesNonPlacees);
+//            } else {
+//                vrac.ajouterBoites(boitesNonPlacees);
+//            }
+//        }
     }
 
     @Override
