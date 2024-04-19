@@ -5,7 +5,7 @@ public abstract class AbstractVehiculeTerrestre extends AbstractVehicule{
         super(nom, poidsVehicule);
     }
 
-    public String decrit(){
+    public String decrit() {
         return super.decrit();
     }
 }

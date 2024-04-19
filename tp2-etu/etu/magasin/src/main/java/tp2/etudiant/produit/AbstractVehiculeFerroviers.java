@@ -1,8 +1,12 @@
 package tp2.etudiant.produit;
 
 public abstract class AbstractVehiculeFerroviers extends AbstractVehiculeTerrestre{
+
+//    double capacité = 0; pour ajouter un attribut unique
+
     public AbstractVehiculeFerroviers(String nom, double poidsVehicule) {
         super(nom, poidsVehicule);
+//        this.capacité = capacité;
     }
 
 

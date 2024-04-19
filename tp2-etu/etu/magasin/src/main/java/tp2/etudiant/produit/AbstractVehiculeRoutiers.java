@@ -2,6 +2,8 @@ package tp2.etudiant.produit;
 
 public abstract class AbstractVehiculeRoutiers extends AbstractVehiculeTerrestre{
 
+//    int nbrChevaux = 0; pour ajouter un attribut unique
+
     public int getNbreRoues() {
         return nbreRoues;
     }
@@ -15,6 +17,7 @@ public abstract class AbstractVehiculeRoutiers extends AbstractVehiculeTerrestre
         super(nom, poidsVehicule);
         assert nbreRoues >= 1 : "Le véhicule doit aumoins avoir 2 roues";
         this.nbreRoues = nbreRoues;
+//        this.nbrChevaux = nbrChevaux;
     }
 
     public String decrit(){
