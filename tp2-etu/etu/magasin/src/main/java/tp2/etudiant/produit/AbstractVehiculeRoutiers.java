@@ -13,8 +13,8 @@ public abstract class AbstractVehiculeRoutiers extends AbstractVehiculeTerrestre
     }
 
     private int nbreRoues;
-    public AbstractVehiculeRoutiers(String nom,  double poidsVehicule, int nbreRoues) {
-        super(nom, poidsVehicule);
+    public AbstractVehiculeRoutiers(String nom, int volumeProduit,  double poidsVehicule, int nbreRoues) {
+        super(nom,volumeProduit, poidsVehicule);
         assert nbreRoues >= 1 : "Le véhicule doit aumoins avoir 2 roues";
         this.nbreRoues = nbreRoues;
 //        this.nbrChevaux = nbrChevaux;

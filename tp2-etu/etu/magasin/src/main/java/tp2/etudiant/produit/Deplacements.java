@@ -5,8 +5,8 @@ import tp2.etudiant.produit.AbstractVehiculeFerroviers;
 public class Deplacements extends AbstractVehiculeFerroviers {
 
     private int capaciteNbrePersonnes;
-    public Deplacements(String nom, double poidsVehicule, int capaciteNbrePersonnes) {
-        super(nom, poidsVehicule);
+    public Deplacements(String nom, int volumeProduit, double poidsVehicule, int capaciteNbrePersonnes) {
+        super(nom, volumeProduit, poidsVehicule);
         this.capaciteNbrePersonnes = capaciteNbrePersonnes;
     }
 

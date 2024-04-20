@@ -3,6 +3,8 @@ package tp2.etudiant.produit;
 import tp2.etudiant.produit.AbstractVehiculeRoutiers;
 
 public class Transporteurs extends AbstractVehiculeRoutiers {
+    private int poidsRemorque;
+
 
     public int getPoidsRemorque() {
         return poidsRemorque;
@@ -12,11 +14,12 @@ public class Transporteurs extends AbstractVehiculeRoutiers {
         this.poidsRemorque = poidsRemorque;
     }
 
-    private int poidsRemorque;
-    public Transporteurs(String nom, double poidsVehicule, int nbreRoues, int poidsRemorque) {
-        super(nom, poidsVehicule, nbreRoues);
+
+    public Transporteurs(String nom, int volumeProduit, double poidsVehicule, int nbreRoues, int poidsRemorque) {
+        super(nom, volumeProduit, poidsVehicule, nbreRoues);
         assert poidsRemorque > 0 : "Valeur sous 0 impossible";
         this.poidsRemorque = poidsRemorque;
+
     }
 
     @Override

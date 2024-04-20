@@ -7,6 +7,7 @@ import tp2.etudiant.boite.Boite;
 import tp2.etudiant.client.Achat;
 import tp2.etudiant.section.AireI;
 import tp2.etudiant.section.Entrepot;
+import tp2.etudiant.section.Vrac;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class Magasin implements Modele {
     private Collection <AireI> sections;
     private Entrepot entrepot;
 
-//    private EntrepotClient entrepotClient;
+    private Vrac vrac;
 
 
 
@@ -29,8 +30,7 @@ public class Magasin implements Modele {
         // Instanciez les attributs nécessaires
         sections = new ArrayList<>();
         entrepot = new Entrepot();
-        //sections.add(EntrepotClient);
-
+        sections.add(new Vrac());
     }
 
 
@@ -71,6 +71,10 @@ public class Magasin implements Modele {
 
 
     public void placerProduits(Collection<Boite> boites, AireI section) {
+        Iterator<Boite> iteratorDeBoite = boites.iterator();
+        while(iteratorDeBoite.hasNext()){
+            section.placerProduits(iteratorDeBoite.next());
+        }
 //        List<Boite> boitesNonPlacees = new ArrayList<>();
 //        for (Boite boite : boites) {
 //            if (section.estSectionClient()) {

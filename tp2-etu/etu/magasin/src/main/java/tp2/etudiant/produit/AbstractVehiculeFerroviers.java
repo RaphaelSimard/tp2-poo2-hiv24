@@ -4,8 +4,8 @@ public abstract class AbstractVehiculeFerroviers extends AbstractVehiculeTerrest
 
 //    double capacité = 0; pour ajouter un attribut unique
 
-    public AbstractVehiculeFerroviers(String nom, double poidsVehicule) {
-        super(nom, poidsVehicule);
+    public AbstractVehiculeFerroviers(String nom,int volumeProduit, double poidsVehicule) {
+        super(nom, volumeProduit, poidsVehicule);
 //        this.capacité = capacité;
     }
 

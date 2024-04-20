@@ -29,8 +29,8 @@ public class Quotidien extends AbstractVehiculeRoutiers {
      * vue que les catégories "transports" et "sport", le nombre de place est pas important, ça reste généralement 2.
      */
 
-    public Quotidien(String nom, double poidsVehicule, int nbreRoues, boolean est4RouesMotrices, int nbrePlaces) {
-        super(nom, poidsVehicule, nbreRoues);
+    public Quotidien(String nom, int volumeProduit, double poidsVehicule, int nbreRoues, boolean est4RouesMotrices, int nbrePlaces) {
+        super(nom,volumeProduit, poidsVehicule, nbreRoues);
         this.est4RouesMotrices = est4RouesMotrices;
         assert nbrePlaces > 0 : "Un véhicule doit aumoins avoir 1 place non?";
         this.nbrePlaces = nbrePlaces;

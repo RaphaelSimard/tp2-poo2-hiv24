@@ -15,8 +15,8 @@ public abstract class AbstractVehicule extends AbstractProduit {
 
 
 
-    public AbstractVehicule(String nom, double poidsVehicule) {
-        super(nom);
+    public AbstractVehicule(String nom, int volumeProduit, double poidsVehicule) {
+        super(nom, volumeProduit);
         assert poidsVehicule > 0 : "Le poids doit être positif (kg)";
         assert poidsVehicule < 100000 : "Valeur un peu trop haute (kg)";
         this.poidsVehicule = poidsVehicule;

@@ -1,8 +1,8 @@
 package tp2.etudiant.produit;
 
 public abstract class AbstractVehiculeTerrestre extends AbstractVehicule{
-    public AbstractVehiculeTerrestre(String nom, double poidsVehicule) {
-        super(nom, poidsVehicule);
+    public AbstractVehiculeTerrestre(String nom, int volumeProduit, double poidsVehicule) {
+        super(nom, volumeProduit, poidsVehicule);
     }
 
     public String decrit() {

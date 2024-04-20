@@ -7,6 +7,7 @@ import java.util.*;
 
 public class Entrepot {
 
+
     private Map<Integer, Boite [][]> categorieBoite = new HashMap<>();
     public static final int NOMBRE_SECTION = 8;
     public static final int NOMBRE_TABLETTE = 4;
@@ -46,9 +47,33 @@ public class Entrepot {
 //    }
 
 
+
+
+    public boolean sectionSontTousVide (int rangee){
+        boolean test = true;
+        for (int i = 0; i < NOMBRE_SECTION; i++) {
+            if (!sectionVide(entreposage[rangee][i]) && test == true){
+                test = false;
+            };
+        }
+        return test;
+    }
+
+    public int trouverSectionEnUtilisation (int rangee, int numeroProduit){
+        int numSection =-1;
+        for (int i = 0; i < NOMBRE_SECTION; i++) {
+            if (entreposage[rangee][i][0] != null && entreposage[rangee][i][0].getNumeroProduit() == numeroProduit){
+                numSection = i;
+                break;
+            }
+        }
+        return numSection;
+    }
+
     public boolean entreposeBoite(Boite boite) {
 
         boolean ajoutBoite = true;
+        int section = 0;
         int numeroCategorie = boite.getNumeroCategorie();
         int numeroProduit = boite.getNumeroProduit();
         int rangee = trouverRangee(numeroCategorie);
@@ -59,7 +84,23 @@ public class Entrepot {
                 ajoutBoite = false;
             }
         }
-        int section = trouverSection(rangee, numeroProduit);
+
+        // TODO voici l'algoréthmie qu'il faut : 1. chercher voir s'il les sections sont tous vides, si oui, on utilise la premiere.
+        // si non, on fait une boucle pour trouver les sections en utilisation, on compare les numProduit/categorie, et puis on les ajoutes ensembles
+        //
+
+
+        if (!sectionSontTousVide(rangee)) {
+             section = trouverSectionEnUtilisation(rangee, numeroProduit);
+        } else {
+            section = trouverSection(rangee, numeroProduit);
+        }
+
+
+
+
+
+
         if (section == -1) {
             section = trouverSectionLibre(rangee);
             // ici, après qu'on est bel et bien identifier la section que l'on veut, l'on doit maintenant ajouter les produits dans les tablettes
@@ -146,11 +187,9 @@ public class Entrepot {
 //            if (entreposage[rangee][i][0].getNumeroProduit() == numeroProduit){
 //                numSection = i-1;
 //            }
-
             if(sectionVide(entreposage[rangee][i])){
                 numSection = i;
             }
-
         }
         return numSection;
 
@@ -168,6 +207,7 @@ public class Entrepot {
 
     //Monte toutes les boites de la section passée en paramètre d'une tablette
     public void decalage(int rangee, int section) {
+        if (entreposage[rangee][section][NOMBRE_TABLETTE-1]==null){
         int lastIndex = -1;
         for (int i = 0; i < NOMBRE_TABLETTE - 1; i++) {
             if (entreposage[rangee][section][i] != null && entreposage[rangee][section][i + 1] == null) {
@@ -175,17 +215,20 @@ public class Entrepot {
             }
         }
         for (int i = lastIndex; i >= 0; i--) {
-            entreposage[rangee][section][i + 1] = entreposage[rangee][section][i];
-            entreposage[rangee][section][i] = null;
+            if (entreposage[rangee][section][i] != null) {
+                entreposage[rangee][section][i + 1] = entreposage[rangee][section][i];
+                entreposage[rangee][section][i] = null;
+            }
+            }
         }
     }
 
 
-    //Comble tout les vides qui peuvent se trouver entre deux boites de la section passée en paramètre
+    //Comble tous les vides qui peuvent se trouver entre deux boites de la section passée en paramètre
     public void reorganisation(int rangee, int section) {
-        //ici je me demande si on est pas mieux de faire l'utilisation d'une liste pour chaque tablette, comme ca quand on ajoute ça va directe en premier et tasse directe pour les autres
+        // note à moi même : ici on passe à travers chaque emplacement de tablette, si la tab 0 = null ou tab 1 != null
         for (int i = 0; i < NOMBRE_TABLETTE - 1; i++) {
-            if (entreposage[rangee][section][i] == null || entreposage[rangee][section][i + 1] != null) {
+            if (entreposage[rangee][section][i] == null && entreposage[rangee][section][i + 1] != null) {
                 entreposage[rangee][section][i] = entreposage[rangee][section][i + 1];
                 entreposage[rangee][section][i + 1] = null;
             }
@@ -196,11 +239,11 @@ public class Entrepot {
     public int trouverSectionLibre(int rangee) { //break pour l'instant, à modifier
         // ici on peut remplacer la partie condition par numSection, apres NOMBRE_SECTION, on peut mettre && numSection == -1
         int numSection = -1;
-        boolean condition = true;
-        for (int i = 0; i < NOMBRE_SECTION && condition; i++) {
+        //boolean condition = true;
+        for (int i = 0; i < NOMBRE_SECTION && numSection ==-1; i++) {
             if (sectionVide(entreposage[rangee][i])) {
                 numSection = i;
-                condition = false;
+                //condition = false;
             }
         }
         return numSection;

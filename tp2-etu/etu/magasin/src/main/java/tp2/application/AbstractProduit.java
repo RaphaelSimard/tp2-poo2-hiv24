@@ -12,12 +12,15 @@ public abstract class AbstractProduit implements Descriptible, Cloneable, Serial
     private int numProduit; // associer au type de produit
 
     private LocalDateTime date = LocalDateTime.now();//la date de création
-
+    private int volumeProduit;
     private static int numSerieCompteur = 1;
     private static int numProduitCompteur =0;
 
-    public AbstractProduit(String nom) {
+    public AbstractProduit(String nom, int volumeProduit) {
+        assert volumeProduit >= 1 : "Volume trop petit, min : 1";
+        assert volumeProduit < 10 : "Volume trop grand, max : 10";
         this.nom = nom;
+        this.volumeProduit = volumeProduit;
         this.numProduit = numProduitCompteur++;
         this.numSerie = numSerieCompteur++;
     }
@@ -65,6 +68,7 @@ public abstract class AbstractProduit implements Descriptible, Cloneable, Serial
 
     public abstract int getNumeroCategorie();
 
+    public int getVolumeProduit() {
+        return volumeProduit;
+    }
 }
-
-// Bonjour, 1 2 testing

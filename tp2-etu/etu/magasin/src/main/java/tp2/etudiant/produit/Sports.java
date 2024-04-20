@@ -13,8 +13,8 @@ public class Sports extends AbstractVehiculeRoutiers {
     }
 
     private int nbreChevaux;
-    public Sports(String nom, double poidsVehicule, int nbreRoues, int nbreChevaux) {
-        super(nom, poidsVehicule, nbreRoues);
+    public Sports(String nom, int volumeProduit, double poidsVehicule, int nbreRoues, int nbreChevaux) {
+        super(nom,volumeProduit, poidsVehicule, nbreRoues);
         assert nbreChevaux > 0 : "Moins de 0 chevaux???";
         this.nbreChevaux = nbreChevaux;
     }
