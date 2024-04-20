@@ -103,10 +103,12 @@ public class Vrac implements AireI {
 
     public int calculerVolumeDunBac(String nomDuProduit){
         int volumeDuBac = 0;
-        Set<AbstractProduit> setNom = contenu.get(nomDuProduit);
-        Iterator<AbstractProduit> iteratorSetNom = setNom.iterator();
-        while (iteratorSetNom.hasNext()){
-            volumeDuBac += iteratorSetNom.next().getVolumeProduit();
+        if (contenu.containsKey(nomDuProduit)) {
+            Set<AbstractProduit> setNom = contenu.get(nomDuProduit);
+            Iterator<AbstractProduit> iteratorSetNom = setNom.iterator();
+            while (iteratorSetNom.hasNext()) {
+                volumeDuBac += iteratorSetNom.next().getVolumeProduit();
+            }
         }
         return volumeDuBac;
     }
