@@ -5,9 +5,7 @@ import tp2.echange.Descriptible;
 import tp2.echange.Modele;
 import tp2.etudiant.boite.Boite;
 import tp2.etudiant.client.Achat;
-import tp2.etudiant.section.AireI;
-import tp2.etudiant.section.Entrepot;
-import tp2.etudiant.section.Vrac;
+import tp2.etudiant.section.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,7 +20,7 @@ public class Magasin implements Modele {
     private Collection <AireI> sections;
     private Entrepot entrepot;
 
-    private Vrac vrac;
+    private Charite charite;
 
 
 
@@ -31,9 +29,10 @@ public class Magasin implements Modele {
         sections = new ArrayList<>();
         entrepot = new Entrepot();
         sections.add(new Vrac());
+        sections.add(new Presentoire(1));
+        charite = new Charite();
+
     }
-
-
     @Override
     public Collection<AireI> getAllSections() {
         return sections;
@@ -41,7 +40,7 @@ public class Magasin implements Modele {
 
     @Override
     public Descriptible getCharite() {
-        return null;
+        return charite;
     }
 
     @Override

@@ -24,7 +24,7 @@ public class Presentoire implements AireI{
 
     @Override
     public String decrit() {
-        return null;
+        return "Section Présentoire";
     }
 
     @Override

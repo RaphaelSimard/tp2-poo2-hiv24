@@ -110,6 +110,7 @@ public class MagasinController {
             }
             metAJourEntrepot();
             metAJourSectionsTrees();
+            metAJourCharite();
         } else {
             alerte("Il faut sélectionner au moins un produit");
         }

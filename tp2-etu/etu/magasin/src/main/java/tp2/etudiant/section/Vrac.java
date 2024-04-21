@@ -6,75 +6,90 @@ import tp2.etudiant.boite.Boite;
 import java.util.*;
 
 public class Vrac implements AireI {
+
+    private Collection<AbstractProduit> produitsVersCharite;
+
+    private Charite charite;
     public final static int idDefault = 0;
-    double capaciteMax = 100;
-    int sectionId;
+    public double capaciteMax = 100;
+    public int sectionId;
     private Map<String, Set<AbstractProduit>> contenu;
 
-//    public Vrac(Map<String, Set<AbstractProduit>> contenu) {
-//        this.sectionId = idDefault;
-//        this.contenu = contenu;
-//    }
+
 
     public Vrac (){
         this.sectionId = idDefault;
         contenu = new HashMap<>();
+        produitsVersCharite = new ArrayList<>();
+        this.charite = new Charite();
     }
 
+    /**
+     * decrit le vrac, utile pour savoir le volume courant par rapport à la capacité max
+     * @return
+     */
     @Override
     public String decrit() {
-        return "Section Vrac";
+        return "Vrac ID:0, volume utilisé - " + calculVolumeTotal() + " / capacité totale - " + capaciteMax;
     }
 
+    /**
+     * méthode permetant de retirer le produit sélectionné
+     * @param items
+     * @return
+     */
     @Override
     public Collection<AbstractProduit> retireProduits(Collection<AbstractProduit> items) {
-        for (Map.Entry<String, Set<AbstractProduit>> entry : contenu.entrySet()){
-            String cle = entry.getKey();
-            contenu.get(cle).removeAll(items);
-            if (contenu.get(cle).isEmpty()){
-                contenu.remove(cle);
+        for (Map.Entry<String, Set<AbstractProduit>> entry : contenu.entrySet()) {
+            String key = entry.getKey();
+            contenu.get(key).removeAll(items);
+            if (contenu.get(key).isEmpty()) {
+                contenu.remove(key);
             }
         }
-        return null;
+        return items;
+//
     }
 
+    /**
+     * permet de voir les produits dans le vrac
+     * @return
+     */
     @Override
     public Collection<AbstractProduit> getAllProduits() {
-        Collection<AbstractProduit> colProduit = new ArrayList<>();
-        for (Map.Entry<String, Set<AbstractProduit>> entry : contenu.entrySet()){
+        Collection<AbstractProduit> contenuCollection = new ArrayList<>();
+        for (Map.Entry<String, Set<AbstractProduit>> entry : contenu.entrySet()) {
             String cle = entry.getKey();
-            colProduit.addAll(contenu.get(cle));
+            contenuCollection.addAll(contenu.get(cle));
         }
-
-
-        return null;
+        return contenuCollection;
     }
 
+
+    /**
+     * Place les produits des boîtes dans l'entrepôt dans le Vrac
+     * @param produits
+     * @return
+     */
     @Override
     public Collection<AbstractProduit> placerProduits(Boite produits) {
-
-        Collection<AbstractProduit> colProduit = new ArrayList<>();
-        List<AbstractProduit> listeAbstractProduit = produits.getContenu();
-        for (int i = 0; i < listeAbstractProduit.size(); i++) {
-            String nomDuProduit = listeAbstractProduit.get(i).getNom();
-            int volumeProduit = listeAbstractProduit.get(i).getVolumeProduit();
-            int volTotal = calculerVolumeDunBac(nomDuProduit);
-            if (contenu.containsKey(nomDuProduit)){
-                if (volTotal + volumeProduit >= capaciteMax){
-                    contenu.get(nomDuProduit).add(listeAbstractProduit.get(i));
-                } else {
-                    colProduit.addAll(listeAbstractProduit);
-                }
+        List<AbstractProduit> listeProduit = produits.getContenu();
+        Collection<AbstractProduit> retCol = new ArrayList<>();
+        for (AbstractProduit produit : listeProduit) {
+            double totalVolume = calculVolumeTotal();
+            if (totalVolume + produit.getVolumeProduit() <= capaciteMax) {
+                String nomProduit = produit.getNom();
+                contenu.computeIfAbsent(nomProduit, k -> new HashSet<>()).add(produit);
+                totalVolume += produit.getVolumeProduit();
             } else {
-                if (volTotal + volumeProduit <= capaciteMax){
-                    contenu.put(nomDuProduit, new HashSet<AbstractProduit>());
-                    contenu.get(nomDuProduit).add(listeAbstractProduit.get(i));
-                } else {
-                    colProduit.addAll(listeAbstractProduit);
-                }
+                produitsVersCharite.add(produit);
+                retCol.add(produit);
+                charite.donneProduit(produit);
+                System.out.println("Voici les produits dans la charité : " + produitsVersCharite);
             }
         }
-        return colProduit;
+        return retCol;
+//
     }
 
     @Override
@@ -82,38 +97,27 @@ public class Vrac implements AireI {
         return false;
     }
 
+
     public boolean ajouterProduit(HashSet<AbstractProduit> Produit) {
+
         boolean ajout = false;
-        double volumeTotal = 0;
-        for (AbstractProduit produit : Produit) {
-//            volumeTotal += produit.getVolume;
-        }
-        if (volumeTotal <= capaciteMax) {
-            //Nom du bac au lieu de toString
-//            contenu.put(Produit.toString(), Produit);
-        } else {
-            while (volumeTotal > capaciteMax) {
-                for (AbstractProduit produits : Produit) {
-//                    contenu.put(Produit.toString(), produits);
-                }
-            }
-        }
+
         return ajout;
     }
 
-    public int calculerVolumeDunBac(String nomDuProduit){
-        int volumeDuBac = 0;
-        if (contenu.containsKey(nomDuProduit)) {
-            Set<AbstractProduit> setNom = contenu.get(nomDuProduit);
-            Iterator<AbstractProduit> iteratorSetNom = setNom.iterator();
-            while (iteratorSetNom.hasNext()) {
-                volumeDuBac += iteratorSetNom.next().getVolumeProduit();
+    /**
+     * calcule le volume total courant du Vrac, parcours tous les sets dans le vrac et additione les volumes (permet de s'assurer que l'on reste sous la capacité max)
+     * @return
+     */
+    public double calculVolumeTotal() {
+        double totalVolumeVrac = 0;
+        for (Set<AbstractProduit> produits : contenu.values()) {
+            for (AbstractProduit produit : produits) {
+                totalVolumeVrac += produit.getVolumeProduit();
             }
         }
-        return volumeDuBac;
+        return totalVolumeVrac;
     }
-
-
     @Override
     public void viderAire() {
 
@@ -121,6 +125,6 @@ public class Vrac implements AireI {
 
     @Override
     public void gereSurplus(Collection<AbstractProduit> restant) {
-
+        produitsVersCharite.addAll(restant);
     }
 }

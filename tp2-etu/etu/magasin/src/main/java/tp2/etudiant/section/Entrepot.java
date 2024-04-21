@@ -5,7 +5,7 @@ import tp2.etudiant.boite.Boite;
 
 import java.util.*;
 
-public class Entrepot {
+public class Entrepot{
 
 
     private Map<Integer, Boite [][]> categorieBoite = new HashMap<>();
@@ -19,36 +19,21 @@ public class Entrepot {
         entreposage = new Boite[NOMBRE_CATEGORIES]
                 [NOMBRE_SECTION]
                 [NOMBRE_TABLETTE];
-        // Ici c'est pour identifier le premier niveau à un ID --> la categorie de quotidien est 0, donc va etre dans le premier tableau de tableau de tableau et etc
+        /**
+         *         // Ici c'est pour identifier le premier niveau à un ID --> la categorie de quotidien est 0, donc va etre dans le premier tableau de tableau de tableau et etc
+         */
         for (int i = 0; i < NOMBRE_CATEGORIES; i++) {
             categorieBoite.put(i, entreposage[i]);
         }
 
     }
 
-    // pas besoin au final vue qu'a la fin on le met directe au début apres le décalage
-//    public boolean tabletteLibre(int range, int section){
-//        boolean libre;
-//        for (int i = 0; i < entreposage[range][section].length; i++) {
-//            if (entreposage[range][section] != null);
-//            libre = false;
-//        }
-//        return false;
-//    }
 
-//    public boolean sectionConteneur(Boite[] section, int numeroProduit) {
-//        boolean test = false;
-//        for (Boite boite : section){
-//            if (boite!=null && boite.getNumeroProduit() == numeroProduit){
-//                test = true;
-//            }
-//        }
-//        return test;
-//    }
-
-
-
-
+    /**
+     * regarde si les sections sont tous vide dans la rangee
+     * @param rangee
+     * @return
+     */
     public boolean sectionSontTousVide (int rangee){
         boolean test = true;
         for (int i = 0; i < NOMBRE_SECTION; i++) {
@@ -70,6 +55,11 @@ public class Entrepot {
         return numSection;
     }
 
+    /**
+     * méthode principale qui s'occupe de revevoir le produit commandé, et de le placé selon les contraintes
+     * @param boite
+     * @return
+     */
     public boolean entreposeBoite(Boite boite) {
 
         boolean ajoutBoite = true;
@@ -85,35 +75,22 @@ public class Entrepot {
             }
         }
 
-        // TODO voici l'algoréthmie qu'il faut : 1. chercher voir s'il les sections sont tous vides, si oui, on utilise la premiere.
-        // si non, on fait une boucle pour trouver les sections en utilisation, on compare les numProduit/categorie, et puis on les ajoutes ensembles
-        //
-
-
+        /**
+         * après avoir trouvé la rangee selon le produit, l'on cherche si une section est déja utilisé, si oui, l'on compare son numéroCategorie avec le numProduit
+         */
         if (!sectionSontTousVide(rangee)) {
              section = trouverSectionEnUtilisation(rangee, numeroProduit);
         } else {
             section = trouverSection(rangee, numeroProduit);
         }
 
-
-
-
-
-
         if (section == -1) {
             section = trouverSectionLibre(rangee);
-            // ici, après qu'on est bel et bien identifier la section que l'on veut, l'on doit maintenant ajouter les produits dans les tablettes
             if (section == -1) {
                 System.out.println("Pas de section disponible pour ce type de produit");
                 ajoutBoite = false;
             }
         }
-
-//        int tablette = trouverTablette(rangee, section, numeroProduit);
-//        if (tablette == -1){
-//            ajoutBoite = false;
-//        }
 
         if (ajoutBoite) {
             reorganisation(rangee, section);
@@ -128,19 +105,11 @@ public class Entrepot {
         return ajoutBoite;
     }
 
-    // pense pas qu'elle va être utilise au final
-//    public int trouverTablette (int rangee, int section, int numProduit){
-//        int tablette = -1;
-//
-//        for (int i = 0; i < NOMBRE_TABLETTE && tablette ==-1; i++) {
-//            if (entreposage[rangee][section][i] == null){
-//                tablette = i;
-//            }
-//        }
-//
-//        return tablette;
-//    }
 
+    /**
+     * retrait de boite lors du transfert hors de l'entrepôt
+     * @param boite
+     */
     public void retireBoite(Boite boite) {
         int numeroCategorie = boite.getNumeroCategorie();
         int numeroProduit = boite.getNumeroProduit();
@@ -155,57 +124,37 @@ public class Entrepot {
         reorganisation(rangee, section);
     }
 
-    //Retourne le numéro de rangée de la categorie dont le numéro est passé en paramètre
+    /**
+     * //Retourne le numéro de rangée de la categorie dont le numéro est passé en paramètre
+     * @param numeroCategorie
+     * @return
+     */
     private int trouverRangee(int numeroCategorie) {
-        // Ici on analyse si la map créer plus haut contient le meme id (est associé au premier niveau de entreposage, une sorte de num ID) que l'item commandé
         return categorieBoite.containsKey(numeroCategorie) ? numeroCategorie :-1;
-
-        /**
-        int numeroRangee = -1;
-        for (int i = 0; i < NOMBRE_CATEGORIES + 1; i++) {
-            if (entreposage[i][0][0].getNumeroCategorie() == numeroCategorie) {
-                numeroRangee = i;
-            }
-        }
-        return numeroRangee;
-         */
     }
 
-    //Retourne le numéro de section du produit dont le numéro  et la rangée sont passés en paramètre
+    /**
+     * Retourne le numéro de section du produit dont le numéro  et la rangée sont passés en paramètre
+     * @param rangee
+     * @param numeroProduit
+     * @return
+     */
     private int trouverSection(int rangee, int numeroProduit) {
-//        int numSection = -1;
-//        for (int i = 0; i < NOMBRE_SECTION; i++) {
-//            if (sectionConteneur(entreposage[rangee][i], numeroProduit)){
-//                numSection = i;
-//            }
-//        }
-
-
         int numSection = -1;
         for (int i = 0; i < NOMBRE_SECTION && numSection == -1 ; i++) {
-            // prob d'utilisation this.truc is null, marche pas
-//            if (entreposage[rangee][i][0].getNumeroProduit() == numeroProduit){
-//                numSection = i-1;
-//            }
             if(sectionVide(entreposage[rangee][i])){
                 numSection = i;
             }
         }
         return numSection;
-
-
-//        int numeroSection = -1;
-//        for (int j = 0; j < NOMBRE_SECTION && numeroSection ==-1; j++) {
-//            if (entreposage[rangee][j][0] != null && entreposage[rangee][j][0].getNumeroProduit() == numeroProduit) {
-//                numeroSection = j;
-//            }
-//        }
-//        return numeroSection;
-
     }
 
 
-    //Monte toutes les boites de la section passée en paramètre d'une tablette
+    /**
+     * Monte toutes les boites de la section passée en paramètre d'une tablette
+     * @param rangee
+     * @param section
+     */
     public void decalage(int rangee, int section) {
         if (entreposage[rangee][section][NOMBRE_TABLETTE-1]==null){
         int lastIndex = -1;
@@ -224,9 +173,12 @@ public class Entrepot {
     }
 
 
-    //Comble tous les vides qui peuvent se trouver entre deux boites de la section passée en paramètre
+    /**
+     * Comble tous les vides qui peuvent se trouver entre deux boites de la section passée en paramètre
+     * @param rangee
+     * @param section
+     */
     public void reorganisation(int rangee, int section) {
-        // note à moi même : ici on passe à travers chaque emplacement de tablette, si la tab 0 = null ou tab 1 != null
         for (int i = 0; i < NOMBRE_TABLETTE - 1; i++) {
             if (entreposage[rangee][section][i] == null && entreposage[rangee][section][i + 1] != null) {
                 entreposage[rangee][section][i] = entreposage[rangee][section][i + 1];
@@ -236,32 +188,41 @@ public class Entrepot {
     }
 
 
-    public int trouverSectionLibre(int rangee) { //break pour l'instant, à modifier
-        // ici on peut remplacer la partie condition par numSection, apres NOMBRE_SECTION, on peut mettre && numSection == -1
+    /**
+     * trouve la première section de libre avec la rangee en paramètre
+     * @param rangee
+     * @return
+     */
+    public int trouverSectionLibre(int rangee) {
         int numSection = -1;
-        //boolean condition = true;
         for (int i = 0; i < NOMBRE_SECTION && numSection ==-1; i++) {
             if (sectionVide(entreposage[rangee][i])) {
                 numSection = i;
-                //condition = false;
             }
         }
         return numSection;
     }
 
+
+    /**
+     * trouve et renvoie le numéro de la premiere range de libre
+     * @return
+     */
     public int trouverRangeeLibre() {
         int numRangeeLibre = -1;
-        boolean condition = true;
-        for (int i = 0; i < NOMBRE_CATEGORIES && condition; i++) {
+        for (int i = 0; i < NOMBRE_CATEGORIES && numRangeeLibre==-1; i++) {
             if (rangeeVide(entreposage[i])) {
                 numRangeeLibre = i;
-                condition = false;
             }
         }
         return numRangeeLibre;
     }
 
-    // Vérifie si une rangée est vide
+    /**
+     * informe si la rangee est vide
+     * @param sections
+     * @return
+     */
     public boolean rangeeVide(Boite[][] sections) {
         boolean estVide = true;
         for (Boite[] section : sections) {
@@ -272,7 +233,11 @@ public class Entrepot {
         return estVide;
     }
 
-    //Vérifie si une section est vide
+    /**
+     * vérifie si une section est vide
+     * @param section
+     * @return
+     */
     private boolean sectionVide(Boite[] section) {
         boolean estVide = true;
         for (Boite boite : section) {
@@ -284,8 +249,10 @@ public class Entrepot {
     }
 
 
-
-    // passage 3d vers 2d les 2 premières dimensions sont fusionnées
+    /**
+     * passage 3d vers 2d les 2 premières dimensions sont fusionnées
+     * @return
+     */
     public Boite[][] getBoites2D() {
         Boite[][] tab2D = new Boite[NOMBRE_SECTION * NOMBRE_CATEGORIES][NOMBRE_TABLETTE];
         int index = 0;
@@ -306,6 +273,10 @@ public class Entrepot {
         return tab2D;
     }
 
+    /**
+     * montre l'entrepot sous un angle de 1d, utiliser dans MagasinController pour voir l'entrepot dans l'UI
+     * @return
+     */
     public Boite[] getBoites1D() {
         List<Boite> listTab = new ArrayList<Boite>();
         for (int i = 0; i < NOMBRE_CATEGORIES; i++) {
@@ -318,6 +289,10 @@ public class Entrepot {
         return listTab.toArray(new Boite[0]);
     }
 
+    /**
+     * affiche une matrice représentant les boites dans la dimension de base : 3d
+     * @return
+     */
     public Boite[][][] getBoites3D() {
         Boite[][][] matrice = new Boite[NOMBRE_CATEGORIES][NOMBRE_SECTION][NOMBRE_TABLETTE];
         for (int i = 0; i < NOMBRE_CATEGORIES; i++) {
